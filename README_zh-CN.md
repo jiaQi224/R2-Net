@@ -1,47 +1,45 @@
 # R2-Net: Efficient Low-Light Image Enhancement via Dynamic Routing and High-Frequency Refinement
 
-Official PyTorch implementation of **R2-Net**, from the paper:
-
-**R2-Net: Efficient Low-Light Image Enhancement via Dynamic Routing and High-Frequency Refinement**
+这是论文 **R2-Net: Efficient Low-Light Image Enhancement via Dynamic Routing and High-Frequency Refinement** 的官方 PyTorch 实现。
 
 CIKM 2026
 
 Jiaqi Ruan, Yamin Li, Sihan Wu, Yucheng Wan, and Kansong Chen
 
-## Introduction
+## 简介
 
-R2-Net is an efficient low-light image enhancement framework for restoring natural illumination, suppressing noise residue, and preserving high-frequency image details.
+R2-Net 是一个面向低照度图像增强任务的高效网络，用于恢复自然光照、抑制噪声残留并保留图像高频细节。
 
-The model contains two main components:
+模型包含两个核心模块：
 
-- **Dynamic Routing Global Block (DRGB)** for content-aware sparse global contextual modeling.
-- **High-Frequency Detail Residual Refinement (HDRR)** for edge and texture recovery.
+- **Dynamic Routing Global Block (DRGB)**：用于内容感知的稀疏全局上下文建模。
+- **High-Frequency Detail Residual Refinement (HDRR)**：用于边缘结构和纹理细节恢复。
 
-The complete model combines global illumination modeling and local high-frequency refinement, aiming to improve both visual quality and restoration robustness in real-world low-light scenes.
+完整模型结合全局光照建模和局部高频细化，旨在提升真实低照度场景下的增强质量与恢复鲁棒性。
 
-## Model Variants
+## 模型变体
 
-This repository includes the complete model and two ablation variants:
+本仓库包含完整模型和两个消融模型：
 
-| Name | Description |
+| 名称 | 说明 |
 | --- | --- |
-| `r2_net.py` | Full R2-Net with DRGB and HDRR |
-| `r2_net_wo_drgb.py` | Ablation variant that removes the Dynamic Routing Global Block to evaluate the contribution of sparse global contextual modeling |
-| `r2_net_wo_hdrr.py` | Ablation variant that removes the High-Frequency Detail Residual Refinement module to evaluate the contribution of high-frequency detail recovery |
+| `r2_net.py` | 完整 R2-Net，包含 DRGB 和 HDRR |
+| `r2_net_wo_drgb.py` | 移除 Dynamic Routing Global Block 的消融变体，用于评估稀疏全局上下文建模对增强性能的贡献 |
+| `r2_net_wo_hdrr.py` | 移除 High-Frequency Detail Residual Refinement 模块的消融变体，用于评估高频细节恢复对增强性能的贡献 |
 
-Main model implementation:
+主模型实现：
 
 ```text
 mmedit/models/backbones/generation_backbones/r2_net.py
 ```
 
-Model registration:
+模型注册位置：
 
 ```text
 mmedit/models/backbones/generation_backbones/__init__.py
 ```
 
-## Configuration Files
+## 配置文件
 
 LOL-v2-Real:
 
@@ -67,27 +65,27 @@ my_config_sice/r2_net_wo_drgb.py
 my_config_sice/r2_net_wo_hdrr.py
 ```
 
-## Installation
+## 环境安装
 
-Create a conda environment:
+创建 conda 环境：
 
 ```bash
 conda create -n r2net python=3.8 -y
 conda activate r2net
 ```
 
-Install PyTorch and MMCV according to your CUDA version. Then install the required packages:
+请根据本机 CUDA 版本安装匹配的 PyTorch 和 MMCV，然后安装依赖：
 
 ```bash
 pip install -r requirements.txt
 pip install -e .
 ```
 
-This project uses the MMEditing 0.x training framework.
+本项目使用 MMEditing 0.x 训练框架。
 
-## Dataset Preparation
+## 数据集准备
 
-Datasets are not included in this repository. Please download them from their official sources and place them as follows.
+本仓库不包含数据集。请从官方渠道下载数据集，并按以下结构放置。
 
 LOL-v2-Real:
 
@@ -125,41 +123,41 @@ SICE_datasets/
     └── high/
 ```
 
-## Training
+## 训练
 
-Train R2-Net on LOL-v2-Real:
+在 LOL-v2-Real 上训练 R2-Net：
 
 ```bash
 bash tools/dist_train.sh my_config_lol/r2_net.py 1
 ```
 
-Train R2-Net on LSRW:
+在 LSRW 上训练 R2-Net：
 
 ```bash
 bash tools/dist_train.sh my_config_lsrw/r2_net.py 1
 ```
 
-Train R2-Net on SICE:
+在 SICE 上训练 R2-Net：
 
 ```bash
 bash tools/dist_train.sh my_config_sice/r2_net.py 1
 ```
 
-For ablation experiments, replace `r2_net.py` with `r2_net_wo_drgb.py` or `r2_net_wo_hdrr.py`.
+进行消融实验时，将 `r2_net.py` 替换为 `r2_net_wo_drgb.py` 或 `r2_net_wo_hdrr.py`。
 
-## Evaluation
+## 测试
 
-Evaluate a trained model:
+测试训练好的模型：
 
 ```bash
 python tools/test.py my_config_lol/r2_net.py path/to/checkpoint.pth --save-path results/lol
 ```
 
-For LSRW or SICE, use the corresponding config file.
+LSRW 或 SICE 请使用对应配置文件。
 
 ## Demo
 
-Run inference with the restoration demo:
+使用 restoration demo 进行推理：
 
 ```bash
 python demo/restoration_demo.py \
@@ -169,7 +167,7 @@ python demo/restoration_demo.py \
   --save_path_dir results/demo
 ```
 
-## Repository Structure
+## 仓库结构
 
 ```text
 R2-Net-release/
@@ -186,11 +184,11 @@ R2-Net-release/
 
 ## License
 
-Please see the `LICENSE` file for details.
+请查看 `LICENSE` 文件。
 
-## Citation
+## 引用
 
-If you find this repository helpful, please cite:
+如果本仓库对你的研究有帮助，请引用：
 
 ```bibtex
 @inproceedings{r2net2026,
@@ -203,6 +201,6 @@ If you find this repository helpful, please cite:
 
 ## TODO
 
-- [ ] Add the paper link after publication.
-- [ ] Add detailed dataset download instructions.
-- [ ] Add additional inference examples.
+- [ ] 论文发表后补充论文链接。
+- [ ] 补充更详细的数据集下载说明。
+- [ ] 补充更多推理示例。
